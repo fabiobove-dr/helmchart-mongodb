@@ -1,0 +1,29 @@
+namespace: mongodb
+mongodb:
+  name: mongodb
+  replicas: 1
+  image: mongo:latest
+  secretName: mongodb-creds
+  pvcName: mongodb-data
+  serviceName: mongodb-nodeport-svc
+  nodePort: 32000
+  storage: 1Gi
+  storageClass: standard
+  accessMode: ReadWriteOnce
+secrets:
+  username: adminuser
+  password: password123
+mongoExpress:
+  name: mongo-express
+  image: mongo-express:latest
+  replicas: 1
+  configMapName: mongodb-configmap
+  serviceName: mongo-express-svc
+  nodePort: 30000
+  adminUsernameSecretKey: username
+  adminPasswordSecretKey: password
+  databaseUrlKey: database_url
+  containerPort: 8081
+  ingress:
+    enabled: true
+    host: mongo-express.local
